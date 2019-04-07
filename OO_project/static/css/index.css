@@ -1,0 +1,35 @@
+
+.forums-group{
+    float: left;
+    width: 1000px;
+    height: 100%;
+    margin-left: 50px;
+}
+.forums-forum{
+    color: #259;
+    font-weight: 900;
+    font-size: 20px;
+}
+.forums-introduce{
+    margin-top: 2px;
+}
+
+.top-article{
+    /*border:1px solid black;*/
+    box-shadow:0px 0px  3px 3px #aaa;
+}
+
+.top-title a{
+    color: #259;
+    font-weight: 900;
+}
+
+.top-info{
+    text-align: right;
+
+}
+
+.top-info .top-address{
+
+
+}

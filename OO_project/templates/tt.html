@@ -1,0 +1,92 @@
+<script>
+    private
+    FileOutputStream
+    fileOutputStream;
+    private
+    BufferedReader
+    br;
+    private
+    InputStreamReader
+    reader;
+    private
+    InputStream
+    inputStream;
+    @Override
+    public
+    void dataBackup()
+    {
+        String
+        realPath = getProjectPath();
+        setBackupInfo();
+        SimpleDateFormat
+        dateFormater = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date
+        date = new Date();
+        String
+        sqlDate = dateFormater.format(date);
+        long
+        time = new Date().getTime();
+        File
+        file = new File(realPath + "/" + time);
+        if (!file.exists() && !file.isDirectory()) {
+            file.mkdirs();
+        }
+        File
+        realfile = new File(file, sqlDate + "_" + sysBackupAndRecoveryConfig.getDatabase() + ".sql");
+        Runtime
+        runtime = Runtime.getRuntime();
+        Process
+        process;
+        try {
+            process = runtime.exec(" mysqldump -R --port=" + sysBackupAndRecoveryConfig.getPort() + " -h" + sysBackupAndRecoveryConfig.getHost() + " -p" + sysBackupAndRecoveryConfig.getPassword() + " -u" + sysBackupAndRecoveryConfig.getUsername() + " --set-charset=" + sysBackupAndRecoveryConfig.getCharset() + " " + sysBackupAndRecoveryConfig.getDatabase());
+            inputStream = process.getInputStream();
+            reader = new InputStreamReader(inputStream, "utf-8");
+            br = new BufferedReader(reader);
+            StringBuffer
+            sb = new StringBuffer();
+            String
+            s = null;
+            while ((s = br.readLine()) != null) {
+                sb.append(s + "\r\n");
+            }
+            s = sb.toString();
+            fileOutputStream = new FileOutputStream(realfile);
+            fileOutputStream.write(s.getBytes());
+            fileOutputStream.close();
+            br.close();
+            reader.close();
+            inputStream.close();
+        } catch (IOException
+        e1
+    )
+        {
+            delFolder(realfile.getAbsolutePath());
+            throw new RuntimeException("备份失败");
+        }
+    finally
+        {
+            try {
+                if (null != fileOutputStream) {
+                    fileOutputStream.close();
+                }
+                if (null != br) {
+                    br.close();
+                }
+                if (null != reader) {
+                    reader.close();
+                }
+                if (null != inputStream) {
+                    inputStream.close();
+                }
+            } catch (IOException
+            e
+        )
+            {
+                delFolder(realfile.getAbsolutePath());
+                throw new RuntimeException("关闭失败");
+            }
+        }
+    }
+
+
+</script>

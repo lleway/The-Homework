@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ content[0] }}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/article.css') }}">
+{% endblock %}
+{% block main %}
+    <center><h1>{{ content[1] }}</h1>
+        ({{ content[6] }})
+        <p id="score">score:{{ score }}</p></center>
+    <br>
+    <p class="content-info">
+        <span>e-mail:<a href="/author/{{ content[2] }}">{{ addr }}</a></span>
+        <span>datetime:{{ content[3] }}</span>
+    </p>
+    <hr>
+    <p5>abstract:</p5>
+    <p class="content-abstract ">
+        <pre width="3">{{ content[4] }}</pre>
+    </p>
+
+     <p5>describe:</p5>
+    <p class="content-describe">
+        <pre >{{ content[5] }}</pre>
+    </p>
+
+    <a href="{{ url_for("download_file",filename=content[0]) }}">
+        <input type="submit" class="btn btn-primary" value="Download">
+    </a>
+        up:<input type="button" id="up-{{ content[0] }}" value="{{ content[7] }}" class="a">
+        down:<input type="button" id="down-{{ content[0] }}" value="{{ content[8] }}" class="b">
+        Browser times:{{ content[9] }}
+    <hr>
+
+    <h4>Comment:({{ num }})</h4>
+    <form action="/add_comment/{{ content[6] }}/{{ content[0] }}" method="post">
+        <div class="form-group">
+            <input type="text" name="comment" class="form-control" placeholder="Please input comment" required="required">
+            <input type="text" name="addr" class="form-control" placeholder="Address" required="required">
+        </div>
+        <div class="form-group" style="text-align: right">
+            <button class="btn btn-primary">Comment</button>
+        </div>
+    </form>
+
+    <ul>
+        {% for comment in comments %}
+            <li><div class="form-group">
+                <p>{{ comment[2] }}<br>（<a href="/author/{{ comment[5] }}">
+                    {{ comment[8] }}</a>&nbsp;&nbsp;
+                    datetime:{{ comment[7] }}&nbsp;&nbsp;
+                    <p1 id = "score{{ comment[0] }}">score:{{ comment[9] }}</p1>）</p>
+                <div class="vote" style="text-align: right">
+                    up:<input type="button" id="{{ comment[0] }}up" value="{{ comment[3] }}" class="c">
+                    down:<input type="button" id="{{ comment[0] }}down" value="{{ comment[4] }}" class="d">
+                </div>
+            </div></li>
+        {% endfor %}
+
+
+    </ul>
+
+<script>
+    $(".a").click(function () {
+        var id = this.id;
+        $.ajax({
+                url: "http://127.0.0.1:5000/vote_up",
+                data: {id: id},
+                type: "GET",
+                {#dataType: "json",#}
+                success: function (result) {
+                    alert("Vote up,but if you have voted, it will be cancelled.")
+                    var arr=result.split(",");
+                    document.getElementById(id).value = arr[0];
+                    $("#score").html("score:"+arr[1]);
+                }
+            });
+
+    })
+
+
+    $(".b").click(function () {
+        var id = this.id;
+        $.ajax({
+                url: "http://127.0.0.1:5000/vote_down",
+                data: {id: id},
+                type: "GET",
+                {#dataType: "json",#}
+                success: function (result) {
+                    alert("Vote down,but if you have voted, it will be cancelled.")
+                    var arr=result.split(",");
+                    document.getElementById(id).value = arr[0];
+                    $("#score").html("score:"+arr[1]);
+                }
+            });
+    })
+
+    $(".c").click(function () {
+        var id = this.id;
+        var c_id = parseInt(id);
+        c_id = "score"+c_id
+        $.ajax({
+                url: "http://127.0.0.1:5000/commentvote/vote_up",
+                data: {id: id},
+                type: "GET",
+                {#dataType: "json",#}
+                success: function (result) {
+                    alert("Vote up,but if you have voted, it will be cancelled.")
+                    var arr=result.split(",");
+                    document.getElementById(id).value = arr[0];
+                    $("#"+c_id+"").html("score:"+arr[1]);
+                }
+            });
+    })
+
+    $(".d").click(function () {
+        var id = this.id;
+        var c_id = parseInt(id);
+        c_id = "score"+c_id
+        $.ajax({
+                url: "http://127.0.0.1:5000/commentvote/vote_down",
+                data: {id: id},
+                type: "GET",
+                {#dataType: "json",#}
+                success: function (result) {
+                    alert("Vote down,but if you have voted, it will be cancelled.")
+                    var arr=result.split(",");
+                    document.getElementById(id).value = arr[0];
+                    $("#"+c_id+"").html("score:"+arr[1]);
+                }
+            });
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+.content-info{
+    margin-top: 1px;
+    text-align: center;
+}
+span{
+        padding:1% 2%;
+    }
+pre {
+white-space: pre-wrap;
+word-wrap: break-word;
+}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ forum }}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/forum.css') }}">
+
+{% endblock %}
+{% block main %}
+    <h4>{{ keyword }}:</h4>
+    <h6>Article info:</h6>
+    <ul>
+        {% if articles == [] %}
+            NULL
+        {% endif %}
+        {% for article in articles %}
+            {% if article[2] not in blacklist %}
+            <li>
+                <div class="article-group">
+                    <div class="article-title">
+                        <a href="{{ url_for("text",f=article[6],id=article[0]) }}">{{ article[1] }}</a>
+                        ({{ article[6] }})
+                        score:{{ article[11] }}
+                    </div>
+                      <br>
+                    <div class="article-info">
+                         <span class="article-address">
+                            <a href="/author/{{ article[2] }}">{{ article[10] }}</a>
+                         </span>
+                         <span class="article-date">
+                            {{ article[3] }}
+                         </span>
+                    </div>
+
+                </div>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h6>Comments info:</h6>
+    <ul>
+        {% if comments == [] %}
+            NULL
+        {% endif %}
+        {% for comment in comments %}
+            {% if comment[5] not in blacklist %}
+                <div class="article-group">
+                    <div class="article-title">
+                        <a href="{{ url_for("text",f=comment[6],id=comment[1]) }}">{{ comment[2] }}</a>
+                        article:{{ comment[10] }}
+                        score:{{ comment[9] }}
+                    </div>
+                    <div class="article-info">
+                        <span class="article-address">
+                            <a href="/author/{{ comment[5] }}">{{ comment[8] }}</a>
+                         </span>
+                         <span class="article-date">
+                            {{ comment[7] }}
+                         </span>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}

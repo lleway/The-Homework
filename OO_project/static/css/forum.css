@@ -1,0 +1,35 @@
+
+
+.article-group{
+    float: left;
+    width: 1000px;
+    height: 100%;
+    margin-left: 50px;
+}
+
+.article-title a{
+    color: #259;
+    font-weight: 900;
+}
+
+.article-info{
+    text-align: right;
+}
+
+.article-info .article-address{
+    margin-right: 20px;
+}
+.top-article{
+    /*border:1px solid black;*/
+    box-shadow:0px 0px  1px 1px #aaa;
+}
+
+.top-title a{
+    color: #259;
+    font-weight: 900;
+}
+
+.top-info{
+    text-align: right;
+
+}

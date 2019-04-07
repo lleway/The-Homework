@@ -1,0 +1,26 @@
+.logo{
+    width: 30px;
+}
+body{
+    background: #f3f3f3;
+}
+.main{
+    background: #ffffff;
+    width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.form-group{
+    padding: 10px;
+}
+ul{
+    list-style: none;
+}
+
+ul li{
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding: 10px 0;
+}
