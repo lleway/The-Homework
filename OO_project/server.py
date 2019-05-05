@@ -29,6 +29,15 @@ def index():
         forums.append(l)
     return render_template('index.html',forums = forums,top = t)
 
+
+@app.route('/ip_record',methods=['GET','POST'])
+def ip_record():
+    list=[]
+    for i in IP.getIpList():
+        list.append(i)
+    return render_template('ip_record.html',list=list);
+
+
 @app.route('/donation')
 def donation():
     return render_template('donation.html')
