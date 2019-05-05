@@ -21,6 +21,18 @@ class IP:
     @staticmethod
     def ip():
         return str(socket.gethostbyname(socket.getfqdn(socket.gethostname())))
+    
+    @staticmethod
+    def getIpList():
+        sql = 'select * from ip'
+        conn = db()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        conn.commit()  # 提交数据库改动
+        cursor.close()  # 关闭游标
+        conn.close()
+        return rows
 
     def get_ip(self):
         return self.ip
