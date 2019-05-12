@@ -10,9 +10,18 @@ class IP:
 
     def add_ip(self):
         print(self.ip)
-        sql = 'insert or ignore into ip(ip) values (\'' + self.ip +'\')'
+        sql = 'insert or ignore into ip(ip) values (\'' + self.ip +'\'，0)'
         conn = db()
         cursor = conn.cursor()
+        cursor.execute(sql)
+        conn.commit()  # 提交数据库改动
+        cursor.close()  # 关闭游标
+        conn.close()
+        
+    def browse(self):
+        conn = db()
+        cursor = conn.cursor()
+        sql = 'update ip set count = (count+1) where ip = '+'\''+self.ip+'\''
         cursor.execute(sql)
         conn.commit()  # 提交数据库改动
         cursor.close()  # 关闭游标
