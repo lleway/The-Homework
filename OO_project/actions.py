@@ -20,7 +20,7 @@ def get_host_ip():
 
 
 def is_valid_email(addr):
-    if re.match(r'^[0-9a-zA-Z_]{0,19}@[0-9a-zA-Z]{1,13}\.[com,cn,net]{1,3}$',addr):
+    if re.match(r'^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$',addr):
         return True
     else :
         return False
