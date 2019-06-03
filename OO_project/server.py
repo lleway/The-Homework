@@ -15,7 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
 @app.route('/')
 def index():
     ip = IP()
-    ip.browse();//count++
+    ip.browse();
     ip.add_ip()
     f = Forums.query()
     top = actions.popularity()
